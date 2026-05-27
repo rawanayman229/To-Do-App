@@ -8,14 +8,6 @@ $color-border-light: #e2e8f0;
 $color-blue: #2563eb;
 $color-blue-hover: #1d4ed8;
 
-// Column pill coloring configurations
-$todo-bg: #dbeafe;
-$todo-text: #1e40af;
-$inprogress-bg: #fef9c3;
-$inprogress-text: #854d0e;
-$done-bg: #dcfce7;
-$done-text: #166534;
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -24,29 +16,55 @@ $done-text: #166534;
 
 body {
   font-family: $font-family;
-  background-color: $color-bg;
+  overflow-x: hidden;
+  background: linear-gradient(
+    135deg,
+    #0f172a,
+    #1e293b,
+    #312e81
+  );
   color: $color-text-main;
   -webkit-font-smoothing: antialiased;
+}
+
+&::before,
+&::after {
+  content: "";
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: -1;
+}
+
+&::before {
+  width: 350px;
+  height: 350px;
+  background: #6366f1;
+  top: -100px;
+  left: -100px;
 }
 
 .app-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  animation: fadeUp 0.6s ease;
 }
 
 // HEADER TOP BAR
 .header-bar {
-  background-color: $color-header-bg;
+  background-color: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
   padding: 24px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  
 
   .board-title {
     font-size: 32px;
     font-weight: 700;
-    color: navy;
+    color: whitesmoke;
     letter-spacing: -0.8px;
   }
 
@@ -66,6 +84,9 @@ body {
 
     &:hover {
       background-color: $color-blue-hover;
+      transform: translateY(-2px);
+      box-shadow:
+      0 12px 30px rgba(37,99,235,.45);
     }
 
     .plus-icon {
@@ -77,9 +98,7 @@ body {
 
 // SEARCH AND CONTROLS
 .controls-section {
-  background-color: $color-header-bg;
-  padding: 0 40px 24px 40px;
-  border-bottom: 1px solid #f1f5f9;
+  padding: 20px;
 }
 
 .filters-container {
@@ -110,7 +129,6 @@ body {
       border-radius: 8px;
       outline: none;
       color: #334155;
-      background-color: #fdfdfd;
       transition: all 0.15s ease;
 
       &:focus {
@@ -219,6 +237,12 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  background: rgba(255,255,255,.06);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,.08);
+  padding: 18px;
+  border-radius: 24px;
+  transition: all .3s ease;
 
   .column-header {
     display: flex;
@@ -230,18 +254,34 @@ body {
     font-weight: 600;
 
     &.header-todo {
-      background-color: $todo-bg;
-      color: $todo-text;
+    background:
+    linear-gradient(
+      135deg,
+      #3b82f6,
+      #60a5fa
+    );
+
+      color: white;
     }
 
     &.header-inprogress {
-      background-color: $inprogress-bg;
-      color: $inprogress-text;
+    background:
+    linear-gradient(
+      135deg,
+      #f59e0b,
+      #fbbf24
+    );
+    color: white;
     }
 
     &.header-done {
-      background-color: $done-bg;
-      color: $done-text;
+      background:
+    linear-gradient(
+      135deg,
+      #10b981,
+      #34d399
+    );
+      color: white;
     }
 
     .column-title {
@@ -283,11 +323,17 @@ body {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  transition:
+  transform .3s ease,
+  box-shadow .3s ease,
+  border-color .3s ease;
 
   &:hover {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03);
     border-color: #cbd5e1;
+    transform:
+    translateY(-6px);
+    box-shadow:
+    0 15px 40px rgba(0,0,0,.15);
   }
 
   .task-body {
@@ -575,6 +621,17 @@ body {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

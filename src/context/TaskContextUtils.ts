@@ -12,6 +12,12 @@ export interface TaskContextType {
   deleteTask: (id: string) => void;
 
   moveTask: (taskId: string, status: Status) => void;
+
+  reorderTasks: (
+  sourceIndex: number,
+  destinationIndex: number,
+  status: Status
+) => void;
 }
 
 export const TaskContext = createContext<TaskContextType | null>(null);

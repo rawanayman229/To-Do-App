@@ -24,11 +24,36 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   const deleteTask = (id: string) => {
     setTasks((prev) => prev.filter((t) => t.id !== id));
   };
-
-  const moveTask = (taskId: string, status: Status) => {
+   const moveTask = (taskId: string, status: Status) => {
     setTasks((prev) =>
-      prev.map((task) => (task.id === taskId ? { ...task, status } : task)),
+      prev.map((task) =>
+        task.id === taskId ? { ...task, status } : task
+      )
     );
+  };
+
+   const reorderTasks = (
+    sourceIndex: number,
+    destinationIndex: number,
+    status: Status
+  ) => {
+    setTasks((prev) => {
+      const columnTasks = prev.filter(
+        (task) => task.status === status
+      );
+
+      const otherTasks = prev.filter(
+        (task) => task.status !== status
+      );
+
+      const updated = [...columnTasks];
+
+      const [removed] = updated.splice(sourceIndex, 1);
+
+      updated.splice(destinationIndex, 0, removed);
+
+      return [...otherTasks, ...updated];
+    });
   };
 
   return (
@@ -39,6 +64,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
         updateTask,
         deleteTask,
         moveTask,
+        reorderTasks,
       }}
     >
       {children}

@@ -15,7 +15,7 @@ import { useTaskContext } from "./context/useTaskContext";
 import "./styles/app.scss";
 
 const Board = () => {
-  const { tasks, moveTask } = useTaskContext();
+  const { tasks, moveTask ,reorderTasks  } = useTaskContext();
 
   const [search, setSearch] = useState("");
   const [label, setLabel] = useState("");
@@ -41,13 +41,26 @@ const Board = () => {
     return value === "todo" || value === "inprogress" || value === "done";
   };
 
-  const onDragEnd = (result: DropResult) => {
-    if (!result.destination) return;
-    const destId = result.destination.droppableId;
-    if (!isStatus(destId)) return;
-    moveTask(result.draggableId, destId);
-  };
+ const onDragEnd = (result: DropResult) => {
+  const { source, destination, draggableId } = result;
 
+  if (!destination) return;
+
+  const sourceId = source.droppableId;
+  const destId = destination.droppableId;
+  if (sourceId === destId) {
+    reorderTasks(
+      source.index,
+      destination.index,
+      sourceId as Status
+    );
+    return;
+  }
+
+  if (!isStatus(destId)) return;
+
+  moveTask(draggableId, destId);
+};
   return (
     <div className="app-container">
       {/* HEADER */}
