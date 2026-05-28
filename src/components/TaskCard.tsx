@@ -1,7 +1,7 @@
 import { Draggable } from "@hello-pangea/dnd";
 import type { Task } from "../types/task";
 import { useTaskContext } from "../context/useTaskContext";
-import { GripVertical, Trash2, Tag, CheckSquare } from "lucide-react";
+import { GripVertical, Trash2, Tag } from "lucide-react";
 
 interface TaskCardProps {
   task: Task;
@@ -18,10 +18,6 @@ const TaskCard = ({ task, index }: TaskCardProps) => {
     if (normalized === "low") return "tag-teal";
     return "tag-default";
   };
-
-  const completedCount =
-    task.checklist?.filter((item) => item.completed).length ?? 0;
-  const totalCount = task.checklist?.length ?? 0;
 
   return (
     <Draggable draggableId={task.id} index={index}>
@@ -72,16 +68,7 @@ const TaskCard = ({ task, index }: TaskCardProps) => {
             )}
           </div>
 
-          {totalCount > 0 && (
-            <div className="task-footer">
-              <div className="checklist-summary">
-                <CheckSquare className="check-icon" size={16} />
-                <span className="checklist-ratio">
-                  {completedCount}/{totalCount}
-                </span>
-              </div>
-            </div>
-          )}
+    
         </div>
       )}
     </Draggable>

@@ -11,6 +11,5 @@ export interface Task {
   title: string;
   description: string;
   labels: string[];
-  checklist: ChecklistItem[];
   status: Status;
 }

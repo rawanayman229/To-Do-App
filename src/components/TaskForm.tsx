@@ -29,7 +29,6 @@ const TaskForm = ({ isOpen, onClose }: TaskFormProps) => {
             description: "",
             tags: "",
             status: "todo",
-            checklistCount: "3",
           }}
           validate={(values) => {
             const errors: Record<string, string> = {};
@@ -39,16 +38,6 @@ const TaskForm = ({ isOpen, onClose }: TaskFormProps) => {
             return errors;
           }}
           onSubmit={(values, { resetForm }) => {
-            const checklistCountNum = parseInt(values.checklistCount, 10) || 0;
-
-            const generatedChecklist = Array.from({
-              length: checklistCountNum,
-            }).map((_, i) => ({
-              id: crypto.randomUUID(),
-              text: `Subtask ${i + 1}`,
-              completed: false,
-            }));
-
             addTask({
               id: crypto.randomUUID(),
               title: values.title.trim(),
@@ -58,7 +47,6 @@ const TaskForm = ({ isOpen, onClose }: TaskFormProps) => {
                 .map((tag) => tag.trim())
                 .filter(Boolean),
               status: values.status as Status,
-              checklist: generatedChecklist,
             });
 
             resetForm();
@@ -109,19 +97,6 @@ const TaskForm = ({ isOpen, onClose }: TaskFormProps) => {
                   <option value="inprogress">In Progress</option>
                   <option value="done">Done</option>
                 </Field>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="checklistCount">
-                  Subtasks Count (Checklist)
-                </label>
-                <Field
-                  id="checklistCount"
-                  name="checklistCount"
-                  type="number"
-                  min="0"
-                  max="10"
-                />
               </div>
 
               <div className="form-actions">
